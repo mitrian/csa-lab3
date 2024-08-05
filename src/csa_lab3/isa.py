@@ -35,3 +35,13 @@ class Register(Enum):
     
     def __str__(self):
         return self.name
+    
+
+
+class AddressingMode(Enum):
+    IMMEDIATE: str = 'IMMEDIATE'
+    DIRECT: str = 'DIRECT'
+    INDIRECT: str = 'INDIRECT'
+
+    def __str__(self):
+        return self.name
