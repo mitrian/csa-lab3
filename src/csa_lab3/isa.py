@@ -33,7 +33,5 @@ class Register(Enum):
     CR: str = 'CR'
     DRW: str = 'DRW'
     
-
-
     def __str__(self):
         return self.name
