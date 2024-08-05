@@ -37,7 +37,6 @@ class Register(Enum):
         return self.name
     
 
-
 class AddressingMode(Enum):
     IMMEDIATE: str = 'IMMEDIATE'
     DIRECT: str = 'DIRECT'
