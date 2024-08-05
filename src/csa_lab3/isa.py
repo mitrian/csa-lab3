@@ -23,3 +23,17 @@ class Opcode(Enum):
 
     def __str__(self):
         return self.name
+    
+
+class Register(Enum):
+    AC: str = 'AC'
+    DRR: str = 'DRR'
+    IP: str = 'IP'
+    AR: str = 'AR'
+    CR: str = 'CR'
+    DRW: str = 'DRW'
+    
+
+
+    def __str__(self):
+        return self.name
