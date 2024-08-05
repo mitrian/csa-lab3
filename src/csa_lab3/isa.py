@@ -58,3 +58,19 @@ class Instruction:
 
     def __str__(self):
         return f'[opcode: {self.opcode!s}, operand: {self.operand!s}, addressing_mode: {self.addressing_mode!s}]'
+    
+
+class MemoryCell:
+    index: int
+    is_instruction: bool = False
+    instruction: Instruction | None = None
+    data: int = 0
+
+    def __init__(self, index: int, is_instruction: bool, instruction: Instruction | None, data: int = 0):
+        self.index = index
+        self.is_instruction = is_instruction
+        self.instruction = instruction
+        self.data = data
+
+    def __str__(self):
+        return f'index: {self.index} is_instruction: {self.is_instruction} instruction: {self.instruction!s} data: {self._data_str()}'
