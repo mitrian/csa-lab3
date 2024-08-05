@@ -48,10 +48,10 @@ class AddressingMode(Enum):
 
 class Instruction:
     opcode: Opcode
-    operand: int 
-    addressing_mode: AddressingMode 
+    operand: int | None
+    addressing_mode: AddressingMode
 
-    def __init__(self, opcode: Opcode, operand: int, addressing_mode: AddressingMode):
+    def __init__(self, opcode: Opcode, operand: int | None, addressing_mode: AddressingMode):
         self.opcode = opcode
         self.operand = operand
         self.addressing_mode = addressing_mode
