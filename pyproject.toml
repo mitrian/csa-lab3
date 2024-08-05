@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "csa-lab3"
+version = "0.1.0"
+description = ""
+authors = ["mitrian <onlyvideo01@gmail.com>"]
+readme = "README.md"
+packages = [{include = "csa_lab3", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
