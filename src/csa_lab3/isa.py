@@ -44,3 +44,17 @@ class AddressingMode(Enum):
 
     def __str__(self):
         return self.name
+    
+
+class Instruction:
+    opcode: Opcode
+    operand: int 
+    addressing_mode: AddressingMode 
+
+    def __init__(self, opcode: Opcode, operand: int, addressing_mode: AddressingMode):
+        self.opcode = opcode
+        self.operand = operand
+        self.addressing_mode = addressing_mode
+
+    def __str__(self):
+        return f'[opcode: {self.opcode!s}, operand: {self.operand!s}, addressing_mode: {self.addressing_mode!s}]'
