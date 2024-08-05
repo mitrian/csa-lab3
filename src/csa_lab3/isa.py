@@ -72,5 +72,11 @@ class MemoryCell:
         self.instruction = instruction
         self.data = data
 
+    def _data_str(self) -> str:
+        if self.data < 0 or self.data > 255:
+            return str(self.data)
+        else:
+            return chr(self.data)
+
     def __str__(self):
         return f'index: {self.index} is_instruction: {self.is_instruction} instruction: {self.instruction!s} data: {self._data_str()}'
