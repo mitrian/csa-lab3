@@ -1,4 +1,6 @@
+import json
 from enum import Enum
+
 
 class Opcode(Enum):
     ADD: str = 'ADD'
@@ -80,3 +82,10 @@ class MemoryCell:
 
     def __str__(self):
         return f'index: {self.index} is_instruction: {self.is_instruction} instruction: {self.instruction!s} data: {self._data_str()}'
+    
+
+class CustomEnumEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, Enum):
+            return f'{o!s}'
+        return super().default(o)
