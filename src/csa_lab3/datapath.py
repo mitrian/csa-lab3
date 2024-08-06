@@ -31,3 +31,15 @@ class ALU:
     
     def alu_or(self, a, b):
         return a or b
+    
+    def alu_neg(self, a, b):
+        return ~a + 1
+    
+    def alu_cmp(self, a, b):
+        return a + ~b + 1
+    
+    def alu_not(self, a, b):
+        return ~a
+    
+    def alu_mod(self, a, b):
+        return a%b
