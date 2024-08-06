@@ -1,3 +1,7 @@
+from typing import Callable
+from csa_lab3.isa import Opcode
+
+
 class ALU:
     is_negative: bool = False
     is_zero: bool = False
@@ -43,3 +47,27 @@ class ALU:
     
     def alu_mod(self, a, b):
         return a%b
+    
+    def exec(self, opcode: Opcode, operand1: int, operand2: int) -> int:
+        operations: dict[Opcode, Callable[[int, int], int]] = {
+            Opcode.ADD: self.alu_add,
+            Opcode.SUB: self.alu_sub,
+            Opcode.INC: self.alu_inc,
+            Opcode.DEC: self.alu_dec,
+            Opcode.AND: self.alu_and,
+            Opcode.OR: self.alu_or,
+            Opcode.CMP: self.alu_cmp,
+            Opcode.NEG: self.alu_neg,
+            Opcode.NOT: self.alu_not,
+            Opcode.MOD: self.alu_mod
+        }
+        operation: Callable[[int, int], int] = operations.get(opcode, None)
+        result: int = 0
+        if operation is None:
+            raise UnknownALUOperationException('Unknown ALU operation')
+        result = operation(operand1, operand2)
+        self.set_flags(result)
+        return result
+
+class UnknownALUOperationException(Exception):
+    pass
