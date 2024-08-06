@@ -101,6 +101,22 @@ class DataPath:
                              lambda: 0])
         self.mux_right = Mux([lambda: self.registers[Register.DRR], 
                               lambda: 0])
+        
+    def latch_register(self, register: Register, value: int) -> None:
+        self.registers[register] = value
+
+    def register_output_wire(self, register: Register) -> int:
+        return self.registers[register]
+    
+    def execute_arithmetic(self, opcode: Opcode, operand1: int = 0, operand2: int = 0) -> int:
+        return self.alu.exec(opcode, operand1, operand2)
+    
+    def is_zero(self) -> bool:
+        return self.alu.is_zero
+
+    def is_negative(self) -> bool:
+        return self.alu.is_negative
+
 
 class UnknownALUOperationException(Exception):
     pass
