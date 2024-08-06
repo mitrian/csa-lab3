@@ -1,5 +1,5 @@
 from typing import Callable
-from csa_lab3.isa import Opcode
+from csa_lab3.isa import MemoryCell, Opcode, Register
 
 
 class ALU:
@@ -80,6 +80,27 @@ class Mux:
     def run(self, select: int) -> int:
         return self.inputs[select]()
 
+
+class DataPath:
+    memory: list[MemoryCell]
+    registers: dict[Register, int]
+    memory_size: int
+    alu: ALU = None
+    mux_left: Mux
+    mux_right: Mux
+    
+    def __init__(self, memory: list[MemoryCell], memory_size: int = 2048):
+        self.memory = memory
+        self.registers = {}
+        for register in Register:
+            self.registers[register] = 0
+        self.memory_size = memory_size
+        self.alu = ALU()
+        self.mux_left = Mux([lambda: self.registers[Register.IP], 
+                             lambda: self.registers[Register.AC], 
+                             lambda: 0])
+        self.mux_right = Mux([lambda: self.registers[Register.DRR], 
+                              lambda: 0])
 
 class UnknownALUOperationException(Exception):
     pass
