@@ -13,3 +13,21 @@ class ALU:
             value = value & self.min_value
         self.is_negative = value < 0
         self.is_zero = value == 0
+
+    def alu_add(self, a, b):
+        return a + b
+    
+    def alu_sub(self, a, b):
+        return a - b
+    
+    def alu_inc(self, a, b: int = 0):
+        return a + 1
+    
+    def alu_dec(self, a, b: int = 0):
+        return a - 1
+    
+    def alu_and(self, a, b):
+        return a and b
+    
+    def alu_or(self, a, b):
+        return a or b
