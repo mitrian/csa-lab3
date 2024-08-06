@@ -69,5 +69,17 @@ class ALU:
         self.set_flags(result)
         return result
 
+
+
+class Mux:
+    inputs: list[Callable[[], int]]
+
+    def __init__(self, inputs: list[Callable[[], int]]) -> None:
+        self.inputs = inputs
+
+    def run(self, select: int) -> int:
+        return self.inputs[select]()
+
+
 class UnknownALUOperationException(Exception):
     pass
