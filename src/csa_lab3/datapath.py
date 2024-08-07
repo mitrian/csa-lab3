@@ -80,17 +80,47 @@ class Mux:
     def run(self, select: int) -> int:
         return self.inputs[select]()
 
+class Printer():
+    output: list[str]
+    def __init__(self) -> None:
+        self.output = []
+
+    def write_port(self, port_id, value) -> None:
+        if port_id == 0:
+            self.output.append(str(value))
+        elif port_id == 1:
+            self.output.append(chr(value))
+
+
+class Reader():
+    input: list[str]
+    port: int = 2
+
+    def __init__(self, input) -> None:
+        self.input = input
+
+    def read_port(self, port: int):        
+        if port == self.port:
+            if len(self.input) != 0:
+                return ord(self.input.pop(0))
+            else:
+                return 0
+
 
 class DataPath:
     memory: list[MemoryCell]
     registers: dict[Register, int]
     memory_size: int
     alu: ALU = None
+    printer: Printer
+    reader: Reader
     mux_left: Mux
     mux_right: Mux
     
-    def __init__(self, memory: list[MemoryCell], memory_size: int = 2048):
+    def __init__(self, memory: list[MemoryCell], reader: Reader, memory_size: int = 2048):
         self.memory = memory
+        self.printer = Printer()
+        self.reader = reader
         self.registers = {}
         for register in Register:
             self.registers[register] = 0
@@ -116,6 +146,14 @@ class DataPath:
 
     def is_negative(self) -> bool:
         return self.alu.is_negative
+    
+    def read(self, port: int) -> int:
+        if port == 2: 
+            return self.reader.read_port(2)
+ 
+    def write(self, symb: int, port: int) -> None:
+        if port in [0, 1]:
+            self.printer.write_port(port, symb)
 
 
 class UnknownALUOperationException(Exception):
