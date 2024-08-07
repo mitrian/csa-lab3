@@ -141,6 +141,18 @@ class DataPath:
     def execute_arithmetic(self, opcode: Opcode, operand1: int = 0, operand2: int = 0) -> int:
         return self.alu.exec(opcode, operand1, operand2)
     
+    def work_with_memory(self, read_signal: bool, write_signal: bool) -> None:
+        address: int = self.registers[Register.AR]
+        if read_signal:
+            if self.memory[address].is_instruction:
+                raise MistreatedInstructionAsDataException('Cannot read instruction as data')
+            self.latch_register(Register.DRR, self.memory[address].data)
+
+        if write_signal:
+            self.memory[address].is_instruction = False
+            self.memory[address].instruction = None
+            self.memory[address].data = self.registers[Register.DRW]
+    
     def is_zero(self) -> bool:
         return self.alu.is_zero
 
@@ -157,4 +169,8 @@ class DataPath:
 
 
 class UnknownALUOperationException(Exception):
+    pass
+
+
+class MistreatedInstructionAsDataException(Exception):
     pass
