@@ -1,3 +1,4 @@
+from enum import IntEnum
 from typing import Callable
 from csa_lab3.isa import MemoryCell, Opcode, Register
 
@@ -70,7 +71,6 @@ class ALU:
         return result
 
 
-
 class Mux:
     inputs: list[Callable[[], int]]
 
@@ -79,6 +79,7 @@ class Mux:
 
     def run(self, select: int) -> int:
         return self.inputs[select]()
+
 
 class Printer():
     output: list[str]
@@ -167,6 +168,16 @@ class DataPath:
         if port in [0, 1]:
             self.printer.write_port(port, symb)
 
+
+class MuxLeftSel(IntEnum):
+    IP = 0
+    AC = 1
+    ZERO = 2
+
+
+class MuxRightSel(IntEnum):
+    DRR = 0
+    ZERO = 1
 
 class UnknownALUOperationException(Exception):
     pass
