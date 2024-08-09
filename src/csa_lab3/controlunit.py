@@ -107,5 +107,4 @@ class ControlUnit:
         self.data_path.latch_register(Register.AC, data)
 
     def lea(self, instruction: Instruction) -> None:
-        # self.data_path.latch_register(Register.AC, self.data_path.load_register(Register.DR)) - doesn't work
         self.data_path.latch_register(Register.AC, instruction.operand)
