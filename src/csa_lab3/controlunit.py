@@ -1,11 +1,39 @@
 from csa_lab3.datapath import DataPath, MuxLeftSel, MuxRightSel
-from csa_lab3.isa import Instruction, Opcode, Register
+from csa_lab3.isa import AddressingMode, Instruction, MemoryCell, Opcode, Register
 
 class ControlUnit:
     data_path: DataPath = None
 
     def __init__(self, data_path: DataPath):
         self.data_path = data_path
+
+    def _fetch_instruction(self) -> Instruction:
+
+        mux_left_out = self.data_path.mux_left.run(MuxLeftSel.IP)
+        mux_right_out = self.data_path.mux_right.run(MuxRightSel.ZERO)
+        self.data_path.latch_register(Register.AR, self.data_path.alu.alu_add(mux_left_out, mux_right_out))
+
+        cell: MemoryCell = self.data_path.memory[self.data_path.register_output_wire(Register.AR)]
+        
+        if cell.is_instruction and cell.instruction.opcode == Opcode.HLT:
+            return cell.instruction
+
+        instruction: Instruction = cell.instruction
+        self.data_path.latch_register(Register.DRR, instruction)
+        self.data_path.latch_register(Register.CR, self.data_path.register_output_wire(Register.DRR))
+        
+        mux_left_out = self.data_path.mux_left.run(MuxLeftSel.IP)
+        mux_right_out = self.data_path.mux_right.run(MuxRightSel.ZERO)
+        self.data_path.latch_register(Register.IP, self.data_path.alu.alu_inc(mux_left_out, mux_right_out))
+        
+        if instruction.addressing_mode == AddressingMode.DIRECT:
+            self.data_path.latch_register(Register.DRR, instruction.operand)
+            if instruction.opcode != Opcode.JMP and instruction.opcode != Opcode.JZ and instruction.opcode != Opcode.JN:
+                mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
+                mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
+                self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+                if instruction.opcode != Opcode.ST and instruction.opcode != Opcode.LEA:
+                    self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
 
     def add(self, instruction: Instruction) -> None:
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.AC)
