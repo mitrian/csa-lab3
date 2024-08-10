@@ -1,3 +1,4 @@
+import logging
 from typing import Callable
 from csa_lab3.datapath import DataPath, MuxLeftSel, MuxRightSel
 from csa_lab3.isa import AddressingMode, Instruction, MemoryCell, Opcode, Register
@@ -186,8 +187,9 @@ class ControlUnit:
 
         if opcode in opcode_mapping:
             opcode_mapping[opcode](instr)
+            logging.debug("%s, Z_Flag: %s, N_Flag: %s, Op: %s, operand: %s, addressing: %s",self, self.data_path.is_zero(), self.data_path.is_negative(), opcode, instr.operand, instr.addressing_mode)
             return True
-
+        logging.debug("%s, Z_Flag: %s, N_Flag: %s, Op: %s, operand: %s, addressing: %s",self, self.data_path.is_zero(), self.data_path.is_negative(), opcode, instr.operand, instr.addressing_mode)
         return False
 
 class IncorrectAddressFormat(Exception):
