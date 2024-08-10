@@ -1,3 +1,4 @@
+from typing import Callable
 from csa_lab3.datapath import DataPath, MuxLeftSel, MuxRightSel
 from csa_lab3.isa import AddressingMode, Instruction, MemoryCell, Opcode, Register
 
@@ -158,6 +159,36 @@ class ControlUnit:
     def lea(self, instruction: Instruction) -> None:
         self.data_path.latch_register(Register.AC, instruction.operand)
 
+    def decode_and_execute_instr(self):
+        opcode_mapping: dict[Opcode, Callable] = {
+            Opcode.ADD: self.add,
+            Opcode.SUB: self.sub,
+            Opcode.INC: self.inc,
+            Opcode.DEC: self.dec,
+            Opcode.AND: self.cu_and,
+            Opcode.OR: self.cu_or,
+            Opcode.NOT: self.cu_not,
+            Opcode.NEG: self.cu_neg,
+            Opcode.MOD: self.mod,
+            Opcode.LD: self.ld,
+            Opcode.ST: self.st,
+            Opcode.CMP: self.cmp,
+            Opcode.JMP: self.jmp,
+            Opcode.JZ: self.jz,
+            Opcode.JN: self.jn,
+            Opcode.INPP: self.inpp,
+            Opcode.OUTT: self.outt,
+            Opcode.LEA: self.lea
+        }
+        
+        instr: Instruction = self._fetch_instruction()
+        opcode: Opcode = instr.opcode
+
+        if opcode in opcode_mapping:
+            opcode_mapping[opcode](instr)
+            return True
+
+        return False
 
 class IncorrectAddressFormat(Exception):
     pass
