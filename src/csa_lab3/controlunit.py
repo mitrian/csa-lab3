@@ -34,6 +34,27 @@ class ControlUnit:
                 self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
                 if instruction.opcode != Opcode.ST and instruction.opcode != Opcode.LEA:
                     self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
+        
+        if instruction.addressing_mode == AddressingMode.INDIRECT:
+            self.data_path.latch_register(Register.DRR, instruction.operand)
+            mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
+            mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
+            self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+            self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
+            if instruction.opcode != Opcode.JMP and instruction.opcode != Opcode.JZ and instruction.opcode != Opcode.JN:
+                mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
+                mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
+                self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+                if instruction.opcode != Opcode.ST:
+                    self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
+
+        if instruction.addressing_mode == AddressingMode.IMMEDIATE:
+            if instruction.opcode != Opcode.JMP and instruction.opcode != Opcode.JZ and instruction.opcode != Opcode.JN:
+                self.data_path.latch_register(Register.DRR, instruction.operand)
+            else:
+                raise IncorrectAddressFormat('Unable to use control flow instruction with immediate addressing mode')
+            
+        return instruction
 
     def add(self, instruction: Instruction) -> None:
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.AC)
@@ -136,3 +157,7 @@ class ControlUnit:
 
     def lea(self, instruction: Instruction) -> None:
         self.data_path.latch_register(Register.AC, instruction.operand)
+
+
+class IncorrectAddressFormat(Exception):
+    pass
