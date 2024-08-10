@@ -192,5 +192,9 @@ class ControlUnit:
         logging.debug("%s, Z_Flag: %s, N_Flag: %s, Op: %s, operand: %s, addressing: %s",self, self.data_path.is_zero(), self.data_path.is_negative(), opcode, instr.operand, instr.addressing_mode)
         return False
 
+    def __repr__(self) -> str:
+        formatted_string_reg = ', '.join([f'{key}: {value}' for key, value in self.data_path.registers.items()])
+        return formatted_string_reg
+    
 class IncorrectAddressFormat(Exception):
     pass
