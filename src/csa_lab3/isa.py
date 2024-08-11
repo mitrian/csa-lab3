@@ -89,3 +89,57 @@ class CustomEnumEncoder(json.JSONEncoder):
         if isinstance(o, Enum):
             return f'{o!s}'
         return super().default(o)
+    
+def write_code(filename: str, memory: list[MemoryCell]) -> None:
+    with open(filename, 'w', encoding='utf-8') as file:
+        buf: list[str] = []
+        for cell in memory:
+            data: str = ''
+            if cell.is_instruction:
+                data = json.dumps(
+                    {
+                        'index': cell.index,
+                        'is_instruction': cell.is_instruction,
+                        'instruction': {
+                            'opcode': cell.instruction.opcode,
+                            'operand': cell.instruction.operand,
+                            'addressing_mode': cell.instruction.addressing_mode,
+                        },
+                        'data': 0,
+                    },
+                    cls=CustomEnumEncoder,
+                )
+            else:
+                data = json.dumps(
+                    {
+                        'index': cell.index,
+                        'is_instruction': cell.is_instruction,
+                        'instruction': None,
+                        'data': cell.data,
+                    },
+                    cls=CustomEnumEncoder,
+                )
+            buf.append(data)
+        file.write('[' + ',\n'.join(buf) + ']')
+
+
+def read_code(filename: str) -> list[MemoryCell]:
+    with open(filename, 'r', encoding='utf-8') as file:
+        memory_json: list[dict] = json.loads(file.read())
+
+    memory: list[MemoryCell] = []
+    for memory_cell_json in memory_json:
+        instruction: Instruction | None = None if not memory_cell_json['is_instruction'] else Instruction(
+            Opcode[memory_cell_json['instruction']['opcode']],
+            memory_cell_json['instruction']['operand'],
+            None if memory_cell_json['instruction']['addressing_mode'] is None else AddressingMode[memory_cell_json['instruction']['addressing_mode']]
+        )
+        data: int = 0 if memory_cell_json['is_instruction'] else memory_cell_json['data']
+        memory_cell: MemoryCell = MemoryCell(
+            memory_cell_json['index'],
+            memory_cell_json['is_instruction'],
+            instruction,
+            data
+        )
+        memory.append(memory_cell)
+    return memory
