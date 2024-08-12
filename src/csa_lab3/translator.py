@@ -1,4 +1,4 @@
-from csa_lab3.isa import MemoryCell
+from csa_lab3.isa import AddressingMode, Instruction, MemoryCell, Opcode
 
 
 def process_source(filename: str) -> list[MemoryCell]:
@@ -50,7 +50,9 @@ def process_source(filename: str) -> list[MemoryCell]:
         if line.startswith('.data'):  
             current_section = '.data'
             continue
-    
+        elif line.startswith('.text'):
+            current_section = '.text'
+            continue
 
         labeled: bool = False
         if current_section == '.data':
@@ -71,6 +73,48 @@ def process_source(filename: str) -> list[MemoryCell]:
                         int_memory, index = _store_static_int(int(element), index)
                         memory.append(int_memory)
 
+        elif current_section == '.text':
+            instr_line_components: list[str] = line.split(' ')
+            if instr_line_components[0].endswith(':'):
+                labels[instr_line_components[0][:len(instr_line_components[0]) - 1]] = index
+                labeled = True
+            if labeled:
+                opcode: Opcode = Opcode[instr_line_components[1].upper()]
+                operand: int | None = None
+                addressing_mode: AddressingMode | None = None
+                # check for opcode and fill port into operand
+                if len(instr_line_components) > 2:
+                    operand_str: str = instr_line_components[2]
+                    if opcode == Opcode.INPP:
+                        operand = int(operand_str)
+                        if operand != 2:
+                            raise InvalidInputPortException('Possible inpp port: 2')
+                    elif opcode == Opcode.OUTT:
+                        operand = int(operand_str)
+                        if operand not in [0, 1]:
+                            raise InvalidOutputPortException('Possible outt pors: 0, 1')
+                    elif operand_str.startswith('$'):
+                        operand = int(operand_str[1:])
+                        addressing_mode = AddressingMode.IMMEDIATE
+                    elif operand_str.startswith('@'):
+                        if operand_str[1:].isdigit():
+                            operand = int(operand_str[1:])
+                        else:
+                            operand = labels[operand_str[1:]]
+                        addressing_mode = AddressingMode.DIRECT
+                    elif operand_str.startswith('#'):
+                        if operand_str[1:].isdigit():
+                            operand = int(operand_str[1:])
+                        else:
+                            operand = labels[operand_str[1:]]
+                        addressing_mode = AddressingMode.INDIRECT
+                    else:
+                        if operand_str not in labels.keys():
+                            raise NoLabelFoundException('Label not found')
+                        operand = labels[operand_str]
+                        addressing_mode = AddressingMode.DIRECT
+                memory.append(MemoryCell(index, True, Instruction(opcode, operand, addressing_mode)))
+
 
 def _store_static_str(some_str: str, starting_index: int) -> tuple[list[MemoryCell], int]:
     result: list[MemoryCell] = []
@@ -86,4 +130,16 @@ def _store_static_int(some_int: int, index: int) -> tuple[MemoryCell, int]:
 
 
 class DuplicateLabelInitializationException(Exception):
+    pass
+
+
+class InvalidInputPortException(Exception):
+    pass
+
+
+class InvalidOutputPortException(Exception):
+    pass
+
+
+class NoLabelFoundException(Exception):
     pass
