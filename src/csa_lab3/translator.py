@@ -1,4 +1,5 @@
-from csa_lab3.isa import AddressingMode, Instruction, MemoryCell, Opcode
+import sys
+from csa_lab3.isa import AddressingMode, Instruction, MemoryCell, Opcode, write_code
 
 
 def process_source(filename: str) -> list[MemoryCell]:
@@ -114,7 +115,7 @@ def process_source(filename: str) -> list[MemoryCell]:
                         operand = labels[operand_str]
                         addressing_mode = AddressingMode.DIRECT
                 memory.append(MemoryCell(index, True, Instruction(opcode, operand, addressing_mode)))
-                
+
             else:
                 opcode: Opcode = Opcode[instr_line_components[0].upper()]
                 operand: int | None = None
@@ -181,3 +182,14 @@ class InvalidOutputPortException(Exception):
 
 class NoLabelFoundException(Exception):
     pass
+
+def main(source, target):
+    """Функция запуска транслятора. Параметры -- исходный и целевой файлы."""
+    memory = process_source(source)
+    write_code(target, memory)
+
+
+if __name__ == "__main__":
+    assert len(sys.argv) ==3, "Wrong arguments: translator.py <input_file> <target_file>"
+    _, source, target = sys.argv
+    main(source, target)
