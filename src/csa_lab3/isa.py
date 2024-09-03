@@ -30,10 +30,10 @@ class Opcode(Enum):
 class Register(Enum):
     AC: str = 'AC'
     DRR: str = 'DRR'
+    DRW: str = 'DRW'
     IP: str = 'IP'
     AR: str = 'AR'
     CR: str = 'CR'
-    DRW: str = 'DRW'
     
     def __str__(self):
         return self.name
