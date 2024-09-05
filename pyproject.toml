@@ -8,6 +8,9 @@ packages = [{include = "csa_lab3", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
+pytest = "^8.3.3"
+coverage = "^7.6.1"
+pytest-golden = "^0.2.2"
 
 
 [build-system]
