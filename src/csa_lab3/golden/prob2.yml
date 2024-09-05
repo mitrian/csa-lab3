@@ -1,0 +1,641 @@
+in_source: |
+  .data
+  a: 0
+  b: 1
+  sum: 0
+  limit: 4000000
+  temp: 0
+
+  .text
+  loop: ld limit
+  cmp a
+  jn end          
+  ld a
+  mod $2
+  cmp $0
+  jz add_even
+  jmp next
+  add_even: ld a
+  add sum
+  st sum
+  next: ld a
+  add b
+  st temp
+  ld b
+  st a
+  ld temp
+  st b
+  jmp loop
+  end: ld sum
+  outt 0
+  hlt
+in_stdin: |-
+  smthing
+out_stdout: |
+  ============================================================
+  4613732
+  instruction_counter:  574
+out_code: |-
+  [{"index": 0, "is_instruction": false, "instruction": null, "data": 0},
+  {"index": 1, "is_instruction": false, "instruction": null, "data": 1},
+  {"index": 2, "is_instruction": false, "instruction": null, "data": 0},
+  {"index": 3, "is_instruction": false, "instruction": null, "data": 4000000},
+  {"index": 4, "is_instruction": false, "instruction": null, "data": 0},
+  {"index": 5, "is_instruction": true, "instruction": {"opcode": "LD", "operand": 3, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 6, "is_instruction": true, "instruction": {"opcode": "CMP", "operand": 0, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 7, "is_instruction": true, "instruction": {"opcode": "JN", "operand": 24, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 8, "is_instruction": true, "instruction": {"opcode": "LD", "operand": 0, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 9, "is_instruction": true, "instruction": {"opcode": "MOD", "operand": 2, "addressing_mode": "IMMEDIATE"}, "data": 0},
+  {"index": 10, "is_instruction": true, "instruction": {"opcode": "CMP", "operand": 0, "addressing_mode": "IMMEDIATE"}, "data": 0},
+  {"index": 11, "is_instruction": true, "instruction": {"opcode": "JZ", "operand": 13, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 12, "is_instruction": true, "instruction": {"opcode": "JMP", "operand": 16, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 13, "is_instruction": true, "instruction": {"opcode": "LD", "operand": 0, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 14, "is_instruction": true, "instruction": {"opcode": "ADD", "operand": 2, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 15, "is_instruction": true, "instruction": {"opcode": "ST", "operand": 2, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 16, "is_instruction": true, "instruction": {"opcode": "LD", "operand": 0, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 17, "is_instruction": true, "instruction": {"opcode": "ADD", "operand": 1, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 18, "is_instruction": true, "instruction": {"opcode": "ST", "operand": 4, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 19, "is_instruction": true, "instruction": {"opcode": "LD", "operand": 1, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 20, "is_instruction": true, "instruction": {"opcode": "ST", "operand": 0, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 21, "is_instruction": true, "instruction": {"opcode": "LD", "operand": 4, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 22, "is_instruction": true, "instruction": {"opcode": "ST", "operand": 1, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 23, "is_instruction": true, "instruction": {"opcode": "JMP", "operand": 5, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 24, "is_instruction": true, "instruction": {"opcode": "LD", "operand": 2, "addressing_mode": "DIRECT"}, "data": 0},
+  {"index": 25, "is_instruction": true, "instruction": {"opcode": "OUTT", "operand": 0, "addressing_mode": null}, "data": 0},
+  {"index": 26, "is_instruction": true, "instruction": {"opcode": "HLT", "operand": null, "addressing_mode": null}, "data": 0}]
+out_log: |
+  DEBUG    root:machine.py:23 AC: 0, DRR: 0, DRW: 0, IP: 5, AR: 0, CR: 0
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 0, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 0, DRW: 0, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 0, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 0, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 0, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 0, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 0, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 0, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 0, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 0, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 0, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 0, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 4, DRW: 1, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 1, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 1, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 1, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 1, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 5, DRW: 1, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 1, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 1, DRW: 1, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 1, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 1, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 1, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 1, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 1, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 1, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 1, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 1, DRW: 1, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 4, DRW: 2, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 2, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 1, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 2, DRW: 1, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 1, DRW: 2, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 5, DRW: 2, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 2, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 1, DRW: 2, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 2, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 2, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 2, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 2, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 2, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 2, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 1, DRW: 2, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 2, DRW: 2, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 4, DRW: 3, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 2, DRW: 3, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 0, DRW: 2, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 3, DRW: 2, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 1, DRW: 3, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 5, DRW: 3, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 3, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 2, DRW: 3, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 3, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 2, DRW: 3, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 3, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 3, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 3, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 2, DRW: 3, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 0, DRW: 3, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 2, DRW: 2, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2, DRR: 2, DRW: 2, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 3, DRW: 2, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 4, DRW: 5, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 3, DRW: 5, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 0, DRW: 3, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 5, DRW: 3, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 1, DRW: 5, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 5, DRW: 5, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 5, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 3, DRW: 5, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 5, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 3, DRW: 5, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 5, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 5, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 5, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 5, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3, DRR: 3, DRW: 5, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 5, DRW: 5, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 4, DRW: 8, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 5, DRW: 8, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 0, DRW: 5, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 8, DRW: 5, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 1, DRW: 8, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 5, DRW: 8, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 8, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 5, DRW: 8, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 8, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 5, DRW: 8, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 8, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 8, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 8, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 8, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5, DRR: 5, DRW: 8, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 8, DRW: 8, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 4, DRW: 13, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 8, DRW: 13, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 0, DRW: 8, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 13, DRW: 8, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 1, DRW: 13, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 5, DRW: 13, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 13, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 8, DRW: 13, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 13, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 8, DRW: 13, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 13, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 13, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 13, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 8, DRW: 13, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10, DRR: 2, DRW: 13, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10, DRR: 2, DRW: 10, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 8, DRR: 8, DRW: 10, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 13, DRW: 10, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 4, DRW: 21, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 13, DRW: 21, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 0, DRW: 13, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 21, DRW: 13, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 1, DRW: 21, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 5, DRW: 21, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 21, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 13, DRW: 21, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 21, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 13, DRW: 21, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 21, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 21, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 21, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 21, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 13, DRR: 13, DRW: 21, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 21, DRW: 21, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 4, DRW: 34, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 21, DRW: 34, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 0, DRW: 21, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 34, DRW: 21, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 1, DRW: 34, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 5, DRW: 34, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 34, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 21, DRW: 34, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 34, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 21, DRW: 34, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 34, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 34, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 34, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 34, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 21, DRR: 21, DRW: 34, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 34, DRW: 34, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 4, DRW: 55, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 34, DRW: 55, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 0, DRW: 34, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 55, DRW: 34, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 1, DRW: 55, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 5, DRW: 55, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 55, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 34, DRW: 55, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 55, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 34, DRW: 55, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 55, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 55, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 55, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 34, DRW: 55, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 44, DRR: 10, DRW: 55, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 44, DRR: 2, DRW: 44, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 34, DRR: 34, DRW: 44, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 55, DRW: 44, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 4, DRW: 89, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 55, DRW: 89, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 0, DRW: 55, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 89, DRW: 55, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 1, DRW: 89, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 5, DRW: 89, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 89, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 55, DRW: 89, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 89, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 55, DRW: 89, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 89, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 89, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 89, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 89, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 55, DRR: 55, DRW: 89, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 89, DRW: 89, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 4, DRW: 144, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 89, DRW: 144, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 0, DRW: 89, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 144, DRW: 89, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 1, DRW: 144, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 5, DRW: 144, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 144, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 89, DRW: 144, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 144, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 89, DRW: 144, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 144, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 144, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 144, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 144, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 89, DRR: 89, DRW: 144, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 144, DRW: 144, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 4, DRW: 233, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 144, DRW: 233, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 0, DRW: 144, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 233, DRW: 144, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 1, DRW: 233, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 5, DRW: 233, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 233, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 144, DRW: 233, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 233, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 144, DRW: 233, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 233, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 233, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 233, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 144, DRW: 233, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 188, DRR: 44, DRW: 233, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 188, DRR: 2, DRW: 188, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 144, DRR: 144, DRW: 188, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 233, DRW: 188, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 4, DRW: 377, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 233, DRW: 377, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 0, DRW: 233, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 377, DRW: 233, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 1, DRW: 377, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 5, DRW: 377, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 377, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 233, DRW: 377, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 377, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 233, DRW: 377, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 377, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 377, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 377, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 377, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 233, DRR: 233, DRW: 377, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 377, DRW: 377, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 4, DRW: 610, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 377, DRW: 610, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 0, DRW: 377, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 610, DRW: 377, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 1, DRW: 610, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 5, DRW: 610, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 610, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 377, DRW: 610, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 610, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 377, DRW: 610, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 610, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 610, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 610, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 610, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 377, DRR: 377, DRW: 610, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 610, DRW: 610, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 4, DRW: 987, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 610, DRW: 987, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 0, DRW: 610, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 987, DRW: 610, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 1, DRW: 987, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 5, DRW: 987, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 987, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 610, DRW: 987, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 987, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 610, DRW: 987, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 987, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 987, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 987, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 610, DRW: 987, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 798, DRR: 188, DRW: 987, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 798, DRR: 2, DRW: 798, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 610, DRR: 610, DRW: 798, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 987, DRW: 798, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 4, DRW: 1597, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 987, DRW: 1597, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 0, DRW: 987, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 1597, DRW: 987, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 1, DRW: 1597, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 5, DRW: 1597, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 1597, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 987, DRW: 1597, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 1597, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 987, DRW: 1597, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 1597, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 1597, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 1597, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 1597, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 987, DRR: 987, DRW: 1597, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 1597, DRW: 1597, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 4, DRW: 2584, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 1597, DRW: 2584, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 0, DRW: 1597, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 2584, DRW: 1597, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 1, DRW: 2584, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 5, DRW: 2584, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 2584, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 1597, DRW: 2584, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 2584, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 1597, DRW: 2584, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 2584, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 2584, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 2584, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 2584, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1597, DRR: 1597, DRW: 2584, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 2584, DRW: 2584, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 4, DRW: 4181, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 2584, DRW: 4181, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 0, DRW: 2584, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 4181, DRW: 2584, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 1, DRW: 4181, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 5, DRW: 4181, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 4181, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 2584, DRW: 4181, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 4181, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 2584, DRW: 4181, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 4181, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 4181, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 4181, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 2584, DRW: 4181, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3382, DRR: 798, DRW: 4181, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3382, DRR: 2, DRW: 3382, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2584, DRR: 2584, DRW: 3382, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 4181, DRW: 3382, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 4, DRW: 6765, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 4181, DRW: 6765, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 0, DRW: 4181, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 6765, DRW: 4181, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 1, DRW: 6765, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 5, DRW: 6765, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 6765, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4181, DRW: 6765, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 6765, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 4181, DRW: 6765, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 6765, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 6765, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 6765, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 6765, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4181, DRR: 4181, DRW: 6765, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 6765, DRW: 6765, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 4, DRW: 10946, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 6765, DRW: 10946, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 0, DRW: 6765, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 10946, DRW: 6765, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 1, DRW: 10946, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 5, DRW: 10946, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 10946, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 6765, DRW: 10946, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 10946, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 6765, DRW: 10946, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 10946, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 10946, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 10946, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 10946, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 6765, DRR: 6765, DRW: 10946, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 10946, DRW: 10946, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 4, DRW: 17711, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 10946, DRW: 17711, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 0, DRW: 10946, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 17711, DRW: 10946, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 1, DRW: 17711, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 5, DRW: 17711, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 17711, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 10946, DRW: 17711, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 17711, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 10946, DRW: 17711, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 17711, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 17711, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 17711, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 10946, DRW: 17711, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 14328, DRR: 3382, DRW: 17711, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 14328, DRR: 2, DRW: 14328, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 10946, DRR: 10946, DRW: 14328, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 17711, DRW: 14328, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 4, DRW: 28657, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 17711, DRW: 28657, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 0, DRW: 17711, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 28657, DRW: 17711, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 1, DRW: 28657, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 5, DRW: 28657, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 28657, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 17711, DRW: 28657, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 28657, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 17711, DRW: 28657, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 28657, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 28657, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 28657, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 28657, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 17711, DRR: 17711, DRW: 28657, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 28657, DRW: 28657, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 4, DRW: 46368, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 28657, DRW: 46368, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 0, DRW: 28657, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 46368, DRW: 28657, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 1, DRW: 46368, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 5, DRW: 46368, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 46368, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 28657, DRW: 46368, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 46368, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 28657, DRW: 46368, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 46368, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 46368, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 46368, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 46368, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 28657, DRR: 28657, DRW: 46368, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 46368, DRW: 46368, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 4, DRW: 75025, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 46368, DRW: 75025, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 0, DRW: 46368, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 75025, DRW: 46368, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 1, DRW: 75025, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 5, DRW: 75025, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 75025, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 46368, DRW: 75025, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 75025, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 46368, DRW: 75025, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 75025, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 75025, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 75025, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 46368, DRW: 75025, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 60696, DRR: 14328, DRW: 75025, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 60696, DRR: 2, DRW: 60696, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 46368, DRR: 46368, DRW: 60696, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 75025, DRW: 60696, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 4, DRW: 121393, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 75025, DRW: 121393, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 0, DRW: 75025, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 121393, DRW: 75025, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 1, DRW: 121393, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 5, DRW: 121393, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 121393, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 75025, DRW: 121393, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 121393, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 75025, DRW: 121393, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 121393, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 121393, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 121393, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 121393, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 75025, DRR: 75025, DRW: 121393, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 121393, DRW: 121393, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 4, DRW: 196418, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 121393, DRW: 196418, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 0, DRW: 121393, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 196418, DRW: 121393, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 1, DRW: 196418, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 5, DRW: 196418, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 196418, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 121393, DRW: 196418, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 196418, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 121393, DRW: 196418, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 196418, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 196418, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 196418, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 196418, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 121393, DRR: 121393, DRW: 196418, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 196418, DRW: 196418, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 4, DRW: 317811, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 196418, DRW: 317811, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 0, DRW: 196418, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 317811, DRW: 196418, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 1, DRW: 317811, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 5, DRW: 317811, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 317811, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 196418, DRW: 317811, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 317811, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 196418, DRW: 317811, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 317811, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 317811, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 317811, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 196418, DRW: 317811, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 257114, DRR: 60696, DRW: 317811, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 257114, DRR: 2, DRW: 257114, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 196418, DRR: 196418, DRW: 257114, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 317811, DRW: 257114, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 4, DRW: 514229, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 317811, DRW: 514229, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 0, DRW: 317811, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 514229, DRW: 317811, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 1, DRW: 514229, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 5, DRW: 514229, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 514229, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 317811, DRW: 514229, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 514229, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 317811, DRW: 514229, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 514229, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 514229, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 514229, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 514229, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 317811, DRR: 317811, DRW: 514229, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 514229, DRW: 514229, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 4, DRW: 832040, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 514229, DRW: 832040, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 0, DRW: 514229, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 832040, DRW: 514229, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 1, DRW: 832040, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 5, DRW: 832040, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 832040, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 514229, DRW: 832040, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 832040, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 514229, DRW: 832040, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 832040, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 832040, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 832040, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 832040, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 514229, DRR: 514229, DRW: 832040, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 832040, DRW: 832040, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 4, DRW: 1346269, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 832040, DRW: 1346269, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 0, DRW: 832040, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 1346269, DRW: 832040, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 1, DRW: 1346269, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 5, DRW: 1346269, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 1346269, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 832040, DRW: 1346269, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 1346269, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 832040, DRW: 1346269, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 1346269, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 1346269, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 1346269, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 832040, DRW: 1346269, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1089154, DRR: 257114, DRW: 1346269, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1089154, DRR: 2, DRW: 1089154, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 832040, DRR: 832040, DRW: 1089154, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 1346269, DRW: 1089154, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 4, DRW: 2178309, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 1346269, DRW: 2178309, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 0, DRW: 1346269, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 2178309, DRW: 1346269, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 1, DRW: 2178309, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 5, DRW: 2178309, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 2178309, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 1346269, DRW: 2178309, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 2178309, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 1346269, DRW: 2178309, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 2178309, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 2178309, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 2178309, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 2178309, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1346269, DRR: 1346269, DRW: 2178309, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 2178309, DRW: 2178309, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 4, DRW: 3524578, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 2178309, DRW: 3524578, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 0, DRW: 2178309, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 3524578, DRW: 2178309, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 1, DRW: 3524578, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 5, DRW: 3524578, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 3524578, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 2178309, DRW: 3524578, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 3524578, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 2178309, DRW: 3524578, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 2, DRW: 3524578, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 0, DRW: 3524578, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 13, DRW: 3524578, IP: 12, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 1, DRR: 16, DRW: 3524578, IP: 16, AR: 12, CR: [opcode: JMP, operand: 16, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 16, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 2178309, DRR: 2178309, DRW: 3524578, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5702887, DRR: 3524578, DRW: 3524578, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5702887, DRR: 4, DRW: 5702887, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 3524578, DRW: 5702887, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 0, DRW: 3524578, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5702887, DRR: 5702887, DRW: 3524578, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5702887, DRR: 1, DRW: 5702887, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5702887, DRR: 5, DRW: 5702887, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 5702887, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 3524578, DRW: 5702887, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 5702887, IP: 8, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 3524578, DRW: 5702887, IP: 9, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 2, DRW: 5702887, IP: 10, AR: 9, CR: [opcode: MOD, operand: 2, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: MOD, operand: 2, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 0, DRW: 5702887, IP: 11, AR: 10, CR: [opcode: CMP, operand: 0, addressing_mode: IMMEDIATE], Z_Flag: True, N_Flag: False, Op: CMP, operand: 0, addressing: IMMEDIATE
+  DEBUG    root:controlunit.py:190 AC: 0, DRR: 13, DRW: 5702887, IP: 13, AR: 11, CR: [opcode: JZ, operand: 13, addressing_mode: DIRECT], Z_Flag: True, N_Flag: False, Op: JZ, operand: 13, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 3524578, DRW: 5702887, IP: 14, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4613732, DRR: 1089154, DRW: 5702887, IP: 15, AR: 2, CR: [opcode: ADD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4613732, DRR: 2, DRW: 4613732, IP: 16, AR: 2, CR: [opcode: ST, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 3524578, DRR: 3524578, DRW: 4613732, IP: 17, AR: 0, CR: [opcode: LD, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 9227465, DRR: 5702887, DRW: 4613732, IP: 18, AR: 1, CR: [opcode: ADD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ADD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 9227465, DRR: 4, DRW: 9227465, IP: 19, AR: 4, CR: [opcode: ST, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5702887, DRR: 5702887, DRW: 9227465, IP: 20, AR: 1, CR: [opcode: LD, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 5702887, DRR: 0, DRW: 5702887, IP: 21, AR: 0, CR: [opcode: ST, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 9227465, DRR: 9227465, DRW: 5702887, IP: 22, AR: 4, CR: [opcode: LD, operand: 4, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 4, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 9227465, DRR: 1, DRW: 9227465, IP: 23, AR: 1, CR: [opcode: ST, operand: 1, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: ST, operand: 1, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 9227465, DRR: 5, DRW: 9227465, IP: 5, AR: 23, CR: [opcode: JMP, operand: 5, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: JMP, operand: 5, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 4000000, DRW: 9227465, IP: 6, AR: 3, CR: [opcode: LD, operand: 3, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 3, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 5702887, DRW: 9227465, IP: 7, AR: 0, CR: [opcode: CMP, operand: 0, addressing_mode: DIRECT], Z_Flag: False, N_Flag: True, Op: CMP, operand: 0, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4000000, DRR: 24, DRW: 9227465, IP: 24, AR: 7, CR: [opcode: JN, operand: 24, addressing_mode: DIRECT], Z_Flag: False, N_Flag: True, Op: JN, operand: 24, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4613732, DRR: 4613732, DRW: 9227465, IP: 25, AR: 2, CR: [opcode: LD, operand: 2, addressing_mode: DIRECT], Z_Flag: False, N_Flag: False, Op: LD, operand: 2, addressing: DIRECT
+  DEBUG    root:controlunit.py:190 AC: 4613732, DRR: [opcode: OUTT, operand: 0, addressing_mode: None], DRW: 9227465, IP: 26, AR: 25, CR: [opcode: OUTT, operand: 0, addressing_mode: None], Z_Flag: False, N_Flag: False, Op: OUTT, operand: 0, addressing: None
+  DEBUG    root:controlunit.py:192 AC: 4613732, DRR: [opcode: OUTT, operand: 0, addressing_mode: None], DRW: 9227465, IP: 26, AR: 26, CR: [opcode: OUTT, operand: 0, addressing_mode: None], Z_Flag: False, N_Flag: False, Op: HLT, operand: None, addressing: None
