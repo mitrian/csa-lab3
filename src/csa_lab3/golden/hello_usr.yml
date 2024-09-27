@@ -26,6 +26,7 @@ in_stdin: |
 out_stdout: |
   ============================================================
   Hello, mitrian
+
   instruction_counter:  108
 out_code: |-
   [{"index": 0, "is_instruction": false, "instruction": null, "data": 72},
