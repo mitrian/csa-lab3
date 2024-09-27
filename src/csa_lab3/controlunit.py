@@ -11,7 +11,7 @@ class ControlUnit:
     def __init__(self, data_path: DataPath):
         self.data_path = data_path
 
-    def _fetch_instruction(self) -> Instruction:
+    def _fetch_and_decode_instruction(self) -> Instruction:
 
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.IP)
         mux_right_out = self.data_path.mux_right.run(MuxRightSel.ZERO)
@@ -26,39 +26,49 @@ class ControlUnit:
         self.data_path.latch_register(Register.DRR, instruction)
         self.data_path.latch_register(Register.CR, self.data_path.register_output_wire(Register.DRR))
 
+        self._update_ip()
+
+        if instruction.addressing_mode == AddressingMode.DIRECT:
+            self._process_direct_addressing(instruction)
+        elif instruction.addressing_mode == AddressingMode.INDIRECT:
+            self._process_indirect_addressing(instruction)
+        elif instruction.addressing_mode == AddressingMode.IMMEDIATE:
+            self._process_immediate_addressing(instruction)
+
+        return instruction
+
+    def _update_ip(self):
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.IP)
         mux_right_out = self.data_path.mux_right.run(MuxRightSel.ZERO)
         self.data_path.latch_register(Register.IP, self.data_path.alu.alu_inc(mux_left_out, mux_right_out))
 
-        if instruction.addressing_mode == AddressingMode.DIRECT:
-            self.data_path.latch_register(Register.DRR, instruction.operand)
-            if instruction.opcode != Opcode.JMP and instruction.opcode != Opcode.JZ and instruction.opcode != Opcode.JN:
-                mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
-                mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
-                self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
-                if instruction.opcode != Opcode.ST and instruction.opcode != Opcode.LEA:
-                    self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
-
-        if instruction.addressing_mode == AddressingMode.INDIRECT:
-            self.data_path.latch_register(Register.DRR, instruction.operand)
+    def _process_direct_addressing(self, instruction: Instruction):
+        self.data_path.latch_register(Register.DRR, instruction.operand)
+        if instruction.opcode not in {Opcode.JMP, Opcode.JZ, Opcode.JN}:
             mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
             mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
             self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
-            self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
-            if instruction.opcode != Opcode.JMP and instruction.opcode != Opcode.JZ and instruction.opcode != Opcode.JN:
-                mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
-                mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
-                self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
-                if instruction.opcode != Opcode.ST:
-                    self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
+            if instruction.opcode not in {Opcode.ST, Opcode.LEA}:
+                self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
 
-        if instruction.addressing_mode == AddressingMode.IMMEDIATE:
-            if instruction.opcode != Opcode.JMP and instruction.opcode != Opcode.JZ and instruction.opcode != Opcode.JN:
-                self.data_path.latch_register(Register.DRR, instruction.operand)
-            else:
-                raise IncorrectAddressFormatError()
+    def _process_indirect_addressing(self, instruction: Instruction):
+        self.data_path.latch_register(Register.DRR, instruction.operand)
+        mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
+        mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
+        self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+        self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
+        if instruction.opcode not in {Opcode.JMP, Opcode.JZ, Opcode.JN}:
+            mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
+            mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
+            self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+            if instruction.opcode != Opcode.ST:
+                self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
 
-        return instruction
+    def _process_immediate_addressing(self, instruction: Instruction):
+        if instruction.opcode not in {Opcode.JMP, Opcode.JZ, Opcode.JN}:
+            self.data_path.latch_register(Register.DRR, instruction.operand)
+        else:
+            raise IncorrectAddressFormatError()
 
     def add(self, instruction: Instruction) -> None:
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.AC)
@@ -184,7 +194,7 @@ class ControlUnit:
             Opcode.LEA: self.lea
         }
 
-        instr: Instruction = self._fetch_instruction()
+        instr: Instruction = self._fetch_and_decode_instruction()
         opcode: Opcode = instr.opcode
 
         if opcode in opcode_mapping:
