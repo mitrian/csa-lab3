@@ -3,19 +3,17 @@ from __future__ import annotations
 import logging
 import sys
 
-from csa_lab3.datapath import DataPath, Reader
-
 from csa_lab3.controlunit import ControlUnit
-
-from csa_lab3.isa import MemoryCell, read_code, Register
+from csa_lab3.datapath import DataPath, Reader
+from csa_lab3.isa import MemoryCell, Register, read_code
 
 
 def simulation(memory: list[MemoryCell], stdin_data: list[str], limit: int) -> tuple[str, int]:
-    reader: Reader = Reader(stdin_data)    
+    reader: Reader = Reader(stdin_data)
     data_path: DataPath = DataPath(memory, reader)
     control_unit: ControlUnit = ControlUnit(data_path)
     counter: int = 0
-    
+
     for i in memory:
         if i.is_instruction:
             control_unit.data_path.latch_register(Register.IP, i.index)
@@ -28,9 +26,9 @@ def simulation(memory: list[MemoryCell], stdin_data: list[str], limit: int) -> t
         counter += 1
 
     if counter >= limit:
-        logging.warning('Instruction counter limit exceeded!')
+        logging.warning("Instruction counter limit exceeded!")
 
-    return ''.join(data_path.printer.output), counter
+    return "".join(data_path.printer.output), counter
 
 
 def main(memory_filename: str, stdin_filename: str) -> None:
@@ -46,9 +44,9 @@ def main(memory_filename: str, stdin_filename: str) -> None:
     print("instruction_counter: ", instr_counter)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     logging.getLogger().setLevel(logging.DEBUG)
     logging.basicConfig(filename="result.log")
-    assert len(sys.argv) == 3, 'Wrong arguments: machine.py <memory_file> <stdin_file>'
+    assert len(sys.argv) == 3, "Wrong arguments: machine.py <memory_file> <stdin_file>"
     _, memory_file, stdin_file = sys.argv
     main(memory_file, stdin_file)
