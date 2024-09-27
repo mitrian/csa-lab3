@@ -12,7 +12,6 @@ class ControlUnit:
         self.data_path = data_path
 
     def _fetch_and_decode_instruction(self) -> Instruction:
-
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.IP)
         mux_right_out = self.data_path.mux_right.run(MuxRightSel.ZERO)
         self.data_path.latch_register(Register.AR, self.data_path.alu.alu_add(mux_left_out, mux_right_out))
@@ -47,7 +46,9 @@ class ControlUnit:
         if instruction.opcode not in {Opcode.JMP, Opcode.JZ, Opcode.JN}:
             mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
             mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
-            self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+            self.data_path.latch_register(
+                Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out)
+            )
             if instruction.opcode not in {Opcode.ST, Opcode.LEA}:
                 self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
 
@@ -55,12 +56,16 @@ class ControlUnit:
         self.data_path.latch_register(Register.DRR, instruction.operand)
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
         mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
-        self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+        self.data_path.latch_register(
+            Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out)
+        )
         self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
         if instruction.opcode not in {Opcode.JMP, Opcode.JZ, Opcode.JN}:
             mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
             mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
-            self.data_path.latch_register(Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+            self.data_path.latch_register(
+                Register.AR, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out)
+            )
             if instruction.opcode != Opcode.ST:
                 self.data_path.work_with_memory(True, False)  # memory[AR] -> DR
 
@@ -121,12 +126,16 @@ class ControlUnit:
     def ld(self, instruction: Instruction) -> None:
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
         mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
-        self.data_path.latch_register(Register.AC, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+        self.data_path.latch_register(
+            Register.AC, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out)
+        )
 
     def st(self, instructon: Instruction) -> None:
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.AC)
         mux_right_out = self.data_path.mux_right.run(MuxRightSel.ZERO)
-        self.data_path.latch_register(Register.DRW, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+        self.data_path.latch_register(
+            Register.DRW, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out)
+        )
         self.data_path.work_with_memory(False, True)
 
     def cmp(self, instruction: Instruction) -> None:
@@ -137,16 +146,18 @@ class ControlUnit:
     def jmp(self, instruction: Instruction) -> None:
         mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
         mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
-        self.data_path.latch_register(Register.IP, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out))
+        self.data_path.latch_register(
+            Register.IP, self.data_path.execute_arithmetic(Opcode.ADD, mux_left_out, mux_right_out)
+        )
 
     def jz(self, instruction: Instruction) -> None:
-        if (self.data_path.is_zero()):
+        if self.data_path.is_zero():
             mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
             mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
             self.data_path.latch_register(Register.IP, self.data_path.alu.alu_add(mux_left_out, mux_right_out))
 
     def jn(self, instruction: Instruction) -> None:
-        if (self.data_path.is_negative()):
+        if self.data_path.is_negative():
             mux_left_out = self.data_path.mux_left.run(MuxLeftSel.ZERO)
             mux_right_out = self.data_path.mux_right.run(MuxRightSel.DRR)
             self.data_path.latch_register(Register.IP, self.data_path.alu.alu_add(mux_left_out, mux_right_out))
@@ -191,7 +202,7 @@ class ControlUnit:
             Opcode.JN: self.jn,
             Opcode.INPP: self.inpp,
             Opcode.OUTT: self.outt,
-            Opcode.LEA: self.lea
+            Opcode.LEA: self.lea,
         }
 
         instr: Instruction = self._fetch_and_decode_instruction()
@@ -199,13 +210,31 @@ class ControlUnit:
 
         if opcode in opcode_mapping:
             opcode_mapping[opcode](instr)
-            logging.debug("%s, Z_Flag: %s, N_Flag: %s, Op: %s, operand: %s, addressing: %s",self, self.data_path.is_zero(), self.data_path.is_negative(), opcode, instr.operand, instr.addressing_mode)
+            logging.debug(
+                "%s, Z_Flag: %s, N_Flag: %s, Op: %s, operand: %s, addressing: %s",
+                self,
+                self.data_path.is_zero(),
+                self.data_path.is_negative(),
+                opcode,
+                instr.operand,
+                instr.addressing_mode,
+            )
+
             return True
-        logging.debug("%s, Z_Flag: %s, N_Flag: %s, Op: %s, operand: %s, addressing: %s",self, self.data_path.is_zero(), self.data_path.is_negative(), opcode, instr.operand, instr.addressing_mode)
+        logging.debug(
+            "%s, Z_Flag: %s, N_Flag: %s, Op: %s, operand: %s, addressing: %s",
+            self,
+            self.data_path.is_zero(),
+            self.data_path.is_negative(),
+            opcode,
+            instr.operand,
+            instr.addressing_mode,
+        )
         return False
 
     def __repr__(self) -> str:
         return ", ".join([f"{key}: {value}" for key, value in self.data_path.registers.items()])
+
 
 class IncorrectAddressFormatError(Exception):
     def __init__(self):

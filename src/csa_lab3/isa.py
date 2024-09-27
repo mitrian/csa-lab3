@@ -49,6 +49,7 @@ class AddressingMode(Enum):
     def __str__(self):
         return self.name
 
+
 class Instruction:
     opcode: Opcode
     operand: int | None
@@ -61,6 +62,7 @@ class Instruction:
 
     def __str__(self):
         return f"[opcode: {self.opcode!s}, operand: {self.operand!s}, addressing_mode: {self.addressing_mode!s}]"
+
 
 class MemoryCell:
     index: int
@@ -88,6 +90,7 @@ class CustomEnumEncoder(json.JSONEncoder):
         if isinstance(o, Enum):
             return f"{o!s}"
         return super().default(o)
+
 
 def write_code(filename: str, memory: list[MemoryCell]) -> None:
     with open(filename, "w", encoding="utf-8") as file:
@@ -128,17 +131,20 @@ def read_code(filename: str) -> list[MemoryCell]:
 
     memory: list[MemoryCell] = []
     for memory_cell_json in memory_json:
-        instruction: Instruction | None = None if not memory_cell_json["is_instruction"] else Instruction(
-            Opcode[memory_cell_json["instruction"]["opcode"]],
-            memory_cell_json["instruction"]["operand"],
-            None if memory_cell_json["instruction"]["addressing_mode"] is None else AddressingMode[memory_cell_json["instruction"]["addressing_mode"]]
+        instruction: Instruction | None = (
+            None
+            if not memory_cell_json["is_instruction"]
+            else Instruction(
+                Opcode[memory_cell_json["instruction"]["opcode"]],
+                memory_cell_json["instruction"]["operand"],
+                None
+                if memory_cell_json["instruction"]["addressing_mode"] is None
+                else AddressingMode[memory_cell_json["instruction"]["addressing_mode"]],
+            )
         )
         data: int = 0 if memory_cell_json["is_instruction"] else memory_cell_json["data"]
         memory_cell: MemoryCell = MemoryCell(
-            memory_cell_json["index"],
-            memory_cell_json["is_instruction"],
-            instruction,
-            data
+            memory_cell_json["index"], memory_cell_json["is_instruction"], instruction, data
         )
         memory.append(memory_cell)
     return memory

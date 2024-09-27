@@ -10,8 +10,8 @@ class ALU:
     is_negative: bool = False
     is_zero: bool = False
 
-    min_value: int = -(2 ** 31)
-    max_value: int = 2 ** 31 - 1
+    min_value: int = -(2**31)
+    max_value: int = 2**31 - 1
 
     def set_flags(self, value: int) -> None:
         if value > self.max_value:
@@ -50,7 +50,7 @@ class ALU:
         return ~a
 
     def alu_mod(self, a, b):
-        return a%b
+        return a % b
 
     def exec(self, opcode: Opcode, operand1: int, operand2: int) -> int:
         operations: dict[Opcode, Callable[[int, int], int]] = {
@@ -63,7 +63,7 @@ class ALU:
             Opcode.CMP: self.alu_cmp,
             Opcode.NEG: self.alu_neg,
             Opcode.NOT: self.alu_not,
-            Opcode.MOD: self.alu_mod
+            Opcode.MOD: self.alu_mod,
         }
         operation: Callable[[int, int], int] = operations.get(opcode, None)
         result: int = 0
@@ -86,6 +86,7 @@ class Mux:
 
 class Printer:
     output: list[str]
+
     def __init__(self) -> None:
         self.output = []
 
@@ -129,11 +130,8 @@ class DataPath:
             self.registers[register] = 0
         self.memory_size = memory_size
         self.alu = ALU()
-        self.mux_left = Mux([lambda: self.registers[Register.IP],
-                             lambda: self.registers[Register.AC],
-                             lambda: 0])
-        self.mux_right = Mux([lambda: self.registers[Register.DRR],
-                              lambda: 0])
+        self.mux_left = Mux([lambda: self.registers[Register.IP], lambda: self.registers[Register.AC], lambda: 0])
+        self.mux_right = Mux([lambda: self.registers[Register.DRR], lambda: 0])
 
     def latch_register(self, register: Register, value: int) -> None:
         self.registers[register] = value
@@ -181,6 +179,7 @@ class MuxLeftSel(IntEnum):
 class MuxRightSel(IntEnum):
     DRR = 0
     ZERO = 1
+
 
 class UnknownALUOperationError(Exception):
     def __init__(self):

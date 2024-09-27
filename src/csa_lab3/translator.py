@@ -17,49 +17,53 @@ def preprocess_labels(lines: list[str]) -> dict[str, int]:
             current_section = ".text"
             continue
         if current_section == ".data":
-           index, labels = preprocess_data_section_line(line, labels, index)
+            index, labels = preprocess_data_section_line(line, labels, index)
         elif current_section == ".text":
             index, labels = preprocess_text_section_line(line, labels, index)
         if line != "":
             index += 1
     return labels
 
+
 def preprocess_text_section_line(line, labels, index):
     line_data: list[str] = line.strip().split(" ")
     if line_data[0].endswith(":"):  # label found
-        if line_data[0][:len(line_data[0]) - 1] in labels:
+        if line_data[0][: len(line_data[0]) - 1] in labels:
             raise DuplicateLabelInitializationError()
-        labels[line_data[0][:len(line_data[0]) - 1]] = index
+        labels[line_data[0][: len(line_data[0]) - 1]] = index
     return index, labels
+
 
 def preprocess_data_section_line(line, labels, index):
     data_line_components: list[str] = line.split(" ", 1)
     if data_line_components[0].endswith(":"):
-        if  data_line_components[0][:len(data_line_components[0]) - 1] in labels:
+        if data_line_components[0][: len(data_line_components[0]) - 1] in labels:
             raise DuplicateLabelInitializationError()
-        labels[data_line_components[0][:len(data_line_components[0]) - 1]] = index
+        labels[data_line_components[0][: len(data_line_components[0]) - 1]] = index
         if data_line_components[1].count("'") != 0:
-            index = index + len(data_line_components[1])-2
+            index = index + len(data_line_components[1]) - 2
     return index, labels
+
 
 def process_data_section_line(line: str, index: int, labels: dict[str, int], memory: list[MemoryCell]):
     data_line_components: list[str] = line.split(" ", 1)
     if data_line_components[0].endswith(":"):
-        labels[data_line_components[0][:len(data_line_components[0]) - 1]] = index
+        labels[data_line_components[0][: len(data_line_components[0]) - 1]] = index
         labeled = True
 
     if labeled:
         stored_data_components: list[str] = data_line_components[1].split("', ")
         for element in stored_data_components:
             if element.startswith("'") and element.endswith("'"):
-                element+=chr(0)
-                str_memory, index = _store_static_str(element[1:len(element) - 2], index)
+                element += chr(0)
+                str_memory, index = _store_static_str(element[1 : len(element) - 2], index)
                 for el in str_memory:
                     memory.append(el)
             else:
                 int_memory, index = _store_static_int(int(element), index)
                 memory.append(int_memory)
     return memory, labels
+
 
 def process_data_line(line: str, index: int, labels: dict[str, int], memory: list[MemoryCell]) -> int:
     """Обрабатывает одну строку данных и возвращает обновлённый индекс."""
@@ -72,6 +76,7 @@ def process_data_line(line: str, index: int, labels: dict[str, int], memory: lis
 
     return index
 
+
 def process_label(component: str, index: int, labels: dict[str, int]) -> tuple[str, bool]:
     """Обрабатывает метку в строке данных, если она существует."""
     if component.endswith(":"):
@@ -79,6 +84,7 @@ def process_label(component: str, index: int, labels: dict[str, int]) -> tuple[s
         labels[label] = index
         return label, True
     return "", False
+
 
 def process_data_elements(elements: list[str], index: int, memory: list[MemoryCell]) -> int:
     """Обрабатывает каждый элемент данных и обновляет память и индекс."""
@@ -89,9 +95,11 @@ def process_data_elements(elements: list[str], index: int, memory: list[MemoryCe
             index = store_integer_element(element, index, memory)
     return index
 
+
 def is_string_element(element: str) -> bool:
     """Проверяет, является ли элемент строкой."""
     return element.startswith("'") and element.endswith("'")
+
 
 def store_string_element(element: str, index: int, memory: list[MemoryCell]) -> int:
     """Сохраняет строковый элемент в памяти."""
@@ -100,12 +108,17 @@ def store_string_element(element: str, index: int, memory: list[MemoryCell]) -> 
     memory.extend(str_memory)  # Добавляем строку в память
     return index
 
+
 def store_integer_element(element: str, index: int, memory: list[MemoryCell]) -> int:
     """Сохраняет целочисленный элемент в памяти."""
     int_memory, index = _store_static_int(int(element), index)
     memory.append(int_memory)
     return index
-def process_operand(opcode: Opcode, operand_str: str, labels: dict[str, int]) -> tuple[int | None, AddressingMode | None]:
+
+
+def process_operand(
+    opcode: Opcode, operand_str: str, labels: dict[str, int]
+) -> tuple[int | None, AddressingMode | None]:
     """Обрабатывает операнд и возвращает его вместе с режимом адресации."""
     if opcode in {Opcode.INPP, Opcode.OUTT}:  # Объединяем проверки для INPP и OUTT
         operand = int(operand_str)
@@ -115,11 +128,7 @@ def process_operand(opcode: Opcode, operand_str: str, labels: dict[str, int]) ->
             raise InvalidOutputPortError()
         return operand, None
 
-    addressing_mode_map = {
-        "$": AddressingMode.IMMEDIATE,
-        "@": AddressingMode.DIRECT,
-        "#": AddressingMode.INDIRECT
-    }
+    addressing_mode_map = {"$": AddressingMode.IMMEDIATE, "@": AddressingMode.DIRECT, "#": AddressingMode.INDIRECT}
 
     prefix = operand_str[0]
     if prefix in addressing_mode_map:
@@ -131,7 +140,9 @@ def process_operand(opcode: Opcode, operand_str: str, labels: dict[str, int]) ->
     return labels[operand_str], AddressingMode.DIRECT
 
 
-def process_addr_instruction(op_ind: int, instr_line_components: list[str], labels: dict[str, int], operand_str: str) -> tuple[Opcode, int | None, AddressingMode | None]:
+def process_addr_instruction(
+    op_ind: int, instr_line_components: list[str], labels: dict[str, int], operand_str: str
+) -> tuple[Opcode, int | None, AddressingMode | None]:
     """Обрабатывает инструкцию и возвращает opcode, operand и addressing_mode."""
     opcode: Opcode = Opcode[instr_line_components[op_ind].upper()]
     operand: int | None = None
@@ -146,6 +157,7 @@ def process_addr_operand(operand_str: str, labels):
     if operand_str[1:].isdigit():
         return int(operand_str[1:])
     return labels[operand_str[1:]]
+
 
 def process_text_line(line: str, index: int, labels: dict[str, int], memory: list[MemoryCell]) -> int:
     instr_line_components: list[str] = line.split(" ")
@@ -171,6 +183,7 @@ def process_text_line(line: str, index: int, labels: dict[str, int], memory: lis
 
     memory.append(MemoryCell(index, True, Instruction(opcode, operand, addressing_mode)))
     return index
+
 
 def process_source(filename: str) -> list[MemoryCell]:
     memory: list[MemoryCell] = []
@@ -215,6 +228,7 @@ def _store_static_str(some_str: str, starting_index: int) -> tuple[list[MemoryCe
     result.append(MemoryCell(starting_index, False, None, 0))
     return result, starting_index
 
+
 def _store_static_int(some_int: int, index: int) -> tuple[MemoryCell, int]:
     result: MemoryCell = MemoryCell(index, False, None, some_int)
     return result, index
@@ -239,6 +253,7 @@ class NoLabelFoundError(Exception):
     def __init__(self):
         super().__init__("Label not found")
 
+
 def main(source, target):
     """Функция запуска транслятора. Параметры -- исходный и целевой файлы."""
     memory = process_source(source)
@@ -246,6 +261,6 @@ def main(source, target):
 
 
 if __name__ == "__main__":
-    assert len(sys.argv) ==3, "Wrong arguments: translator.py <input_file> <target_file>"
+    assert len(sys.argv) == 3, "Wrong arguments: translator.py <input_file> <target_file>"
     _, source, target = sys.argv
     main(source, target)

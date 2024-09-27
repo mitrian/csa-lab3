@@ -39,6 +39,7 @@ def main(memory_filename: str, stdin_filename: str) -> None:
         text: str = stdin_f.read()
         for char in text:
             stdin_data.append(char)
+        stdin_data.append(chr(0))
     output, instr_counter = simulation(memory, stdin_data, 600)
     print(output)
     print("instruction_counter: ", instr_counter)
